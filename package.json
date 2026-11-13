@@ -1,0 +1,22 @@
+{
+  "name": "deployagram-nodejs-emailer-vitest-proxy-demo",
+  "version": "0.0.1",
+  "private": true,
+  "description": "A minimal Node.js/TypeScript HTTP service (the Emailer) with service tests, ported from deployagram-java-emailer-demo at commit 1491c58.",
+  "license": "Unlicense",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/main.js",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.5",
+    "typescript": "^7.0.2",
+    "vitest": "^5.1.0"
+  }
+}

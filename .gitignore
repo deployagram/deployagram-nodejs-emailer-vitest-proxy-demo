@@ -1,0 +1,10 @@
+node_modules/
+dist/
+coverage/
+
+# Deployagram configuration (kept out of git; used when instrumentation is added)
+.env
+.deployagram
+
+### IntelliJ IDEA ###
+.idea/
