@@ -1,11 +1,13 @@
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
+import { useDeployagram } from '@deployagram/vitest';
 import { EmailerApplication } from '../src/emailer-application.js';
+import { EMAILER_EMAIL_PATH, PROXY_CONFIG } from './environment.js';
 
-const BASE_URI = 'http://localhost:8080';
-const EMAIL_PATH = '/Emailer/email';
 const MALFORMED_JSON = '{"email": "eddie@eddie.com"';
 
 describe('RejectInvalidEmailRequestTest', () => {
+  const deployagram = useDeployagram({ name: 'RejectInvalidEmailRequestTest', proxyConfig: PROXY_CONFIG });
+
   let application: EmailerApplication;
   let response: Response;
 
@@ -15,7 +17,7 @@ describe('RejectInvalidEmailRequestTest', () => {
   });
 
   afterAll(async () => {
-    await application.stop();
+    await application?.stop();
   });
 
   it('rejectsAnEmailThatIsNotValidJson', async () => {
@@ -31,7 +33,7 @@ describe('RejectInvalidEmailRequestTest', () => {
   });
 
   async function whenMalformedJsonIsPosted(): Promise<void> {
-    response = await fetch(BASE_URI + EMAIL_PATH, {
+    response = await fetch(deployagram.proxyUrl + EMAILER_EMAIL_PATH, {
       method: 'POST',
       headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
       body: MALFORMED_JSON,
@@ -39,7 +41,7 @@ describe('RejectInvalidEmailRequestTest', () => {
   }
 
   async function whenTheEmailPathIsRequestedWithGet(): Promise<void> {
-    response = await fetch(BASE_URI + EMAIL_PATH, {
+    response = await fetch(deployagram.proxyUrl + EMAILER_EMAIL_PATH, {
       method: 'GET',
       headers: { Accept: 'application/json' },
     });

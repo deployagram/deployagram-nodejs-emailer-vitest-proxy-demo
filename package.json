@@ -12,9 +12,10 @@
     "build": "tsc -p tsconfig.json",
     "start": "node dist/main.js",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "test": "vitest run"
+    "test": "node --env-file-if-exists=.env ./node_modules/vitest/vitest.mjs run"
   },
   "devDependencies": {
+    "@deployagram/vitest": "^1.0.0",
     "@types/node": "^22.20.5",
     "typescript": "^7.0.2",
     "vitest": "^5.1.0"

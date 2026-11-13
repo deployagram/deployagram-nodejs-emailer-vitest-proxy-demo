@@ -3,8 +3,9 @@ import { defineConfig } from 'vitest/config';
 export default defineConfig({
   test: {
     include: ['test/**/*.test.ts'],
-    // Every test file starts the Emailer on the same fixed port (8080),
-    // so the files must run one after another, as the JUnit tests do.
+    globalSetup: ['test/deployagram.global-setup.ts'],
+    // Suites share the Emailer's port (8080) and the Deployagram environment, so run them one
+    // after another, as the Java tests do.
     fileParallelism: false,
   },
 });

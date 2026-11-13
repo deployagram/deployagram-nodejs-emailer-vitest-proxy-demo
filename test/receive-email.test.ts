@@ -1,8 +1,8 @@
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
+import { useDeployagram } from '@deployagram/vitest';
 import { EmailerApplication } from '../src/emailer-application.js';
+import { EMAILER_EMAIL_PATH, PROXY_CONFIG } from './environment.js';
 
-const BASE_URI = 'http://localhost:8080';
-const EMAIL_PATH = '/Emailer/email';
 const EMAIL_JSON = `{
   "email": "eddie@eddie.com",
   "subject": "Test email subject in here",
@@ -10,6 +10,8 @@ const EMAIL_JSON = `{
 }`;
 
 describe('ReceiveEmailTest', () => {
+  const deployagram = useDeployagram({ name: 'ReceiveEmailTest', proxyConfig: PROXY_CONFIG });
+
   let application: EmailerApplication;
   let response: Response;
 
@@ -19,7 +21,7 @@ describe('ReceiveEmailTest', () => {
   });
 
   afterAll(async () => {
-    await application.stop();
+    await application?.stop();
   });
 
   it('acceptsAnEmailRequest', async () => {
@@ -30,7 +32,7 @@ describe('ReceiveEmailTest', () => {
   });
 
   async function whenTheEmailIsPosted(): Promise<void> {
-    response = await fetch(BASE_URI + EMAIL_PATH, {
+    response = await fetch(deployagram.proxyUrl + EMAILER_EMAIL_PATH, {
       method: 'POST',
       headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
       body: EMAIL_JSON,
